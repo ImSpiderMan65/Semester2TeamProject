@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Lowpoly_Armors_Male_Moduar_Free
       objectReference: {fileID: 0}
+    - target: {fileID: 8549355925730280344, guid: 22cfdb87a92e7f14a8218dbd8658e6c8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0026
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
