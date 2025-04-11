@@ -23,9 +23,14 @@ public class PlayerController : MonoBehaviour
     public LayerMask ground;
     bool grounded;
 
+    [Header("Animation")]
+    public GameObject charRig;
+    private Animator anim;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = charRig.GetComponent<Animator>();
         rb.freezeRotation = true;
     }
 
@@ -39,6 +44,11 @@ public class PlayerController : MonoBehaviour
             readyToJump = false;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack(); 
         }
     }
 
@@ -58,7 +68,14 @@ public class PlayerController : MonoBehaviour
     {
         moveDir = horizontalInput * orientation.right + verticalInput * orientation.forward;
 
-        rb.AddForce(moveDir.normalized * speed * 10f, ForceMode.Force); 
+        rb.AddForce(moveDir.normalized * speed * 10f, ForceMode.Force);
+        charRig.transform.rotation = Quaternion.LookRotation(orientation.forward);
+
+        if (moveDir.magnitude != 0f)
+        {
+            anim.SetBool("isWalking", true); 
+        }
+        else { anim.SetBool("isWalking", false); }
     }
 
     private void GroundCheck()
@@ -97,5 +114,11 @@ public class PlayerController : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    private void Attack()
+    {
+        anim.SetTrigger("isAttacking");
+        charRig.transform.localPosition = Vector3.zero;
     }
 }
