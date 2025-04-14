@@ -38,12 +38,6 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats:
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Parallax: 0.02
-    m_Colors:
-    - _BaseColor: {r: 0.9568628, g: 0.93725497, b: 0.9490197, a: 1}
-    - _Color: {r: 0.95686275, g: 0.93725497, b: 0.9490196, a: 1}
+    m_Floats: []
+    m_Colors: []
   m_BuildTextureStacks: []
