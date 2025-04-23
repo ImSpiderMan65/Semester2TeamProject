@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDir;
     Rigidbody rb;
     public float groundDrag;
+    public float currentSpeed = 0;
 
     public float jumpForce;
     public float jumpCooldown;
