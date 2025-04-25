@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject pauseScreen;
     public GameObject deathScreen;
     public GameObject winScreen;
+    public Image playerHealth;
 
     public GameObject player;
     public GameObject[] enemySpawners;
@@ -30,5 +32,10 @@ public class GameManager : MonoBehaviour
             int randomSpawn = Random.Range(0, enemySpawners.Length);
             Instantiate(enemyTypes[randomEnemy], enemySpawners[randomSpawn].transform.position, Quaternion.identity);
         }
+    }
+
+    public void UpdatePlayerUI()
+    {
+        playerHealth.fillAmount = data.health / 100;
     }
 }

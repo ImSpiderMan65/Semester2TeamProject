@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
     public float speed;
-    public float damage;
+    public float damage = 1f;
     public float health;
 
     private Rigidbody rb;
     private Animator anim;
     private NavMeshAgent agent;
     public GameObject target;
+    private PlayerController player;
+
+    public Image healthBar;
 
     void Start()
     {
@@ -20,23 +24,27 @@ public class EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.Find("Player");
+        player = target.GetComponent<PlayerController>();
+
     }
 
     void Update()
     {
-        if (CanSeeTarget() == true)
-        {
-            Pursue();
-        }
-        else
-        {
-            Ray ray = new Ray(transform.position, -Vector3.forward);
-            
-        }
+        Pursue();
 
         if (agent.velocity.magnitude < 0.5f)
         {
             anim.SetFloat("speed", 0f);
+        }
+
+        if (IsInRange() )
+        {
+            Invoke("Attack", 1.1f);
+        }
+
+        if (health <= 0f)
+        {
+
         }
     }
 
@@ -93,4 +101,39 @@ public class EnemyController : MonoBehaviour
 
         return false;
     }
+
+    bool IsInRange()
+    {
+        if (Vector3.Distance(target.transform.position, this.transform.position) < 4)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    void Attack()
+    {
+        anim.SetTrigger("isAttacking");
+        player.playerDataStorage.UpdatePlayerHealth(-damage);
+    }
+
+    public void UpdateHealth(float addedHealth)
+    {
+        health += addedHealth;
+    }
+
+    IEnumerator Hit()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+    }
+
+    IEnumerator Die()
+    {
+
+        yield return new WaitForSeconds(1f);
+    }
+
+
 }

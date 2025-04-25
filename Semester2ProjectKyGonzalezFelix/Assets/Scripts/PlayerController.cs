@@ -28,6 +28,13 @@ public class PlayerController : MonoBehaviour
     public GameObject charRig;
     private Animator anim;
 
+    public PlayerDataStorage playerDataStorage;
+
+
+    private void Awake()
+    {
+        playerDataStorage = GameObject.FindGameObjectWithTag("Data").GetComponent<PlayerDataStorage>();
+    }
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
