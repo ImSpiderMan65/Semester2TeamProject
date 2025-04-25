@@ -19,23 +19,38 @@ public class EnemyController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        target = GameObject.Find("Player");
     }
 
     void Update()
     {
-        
+        if (CanSeeTarget() == true)
+        {
+            Pursue();
+        }
+        else
+        {
+            Ray ray = new Ray(transform.position, -Vector3.forward);
+            
+        }
+
+        if (agent.velocity.magnitude < 0.5f)
+        {
+            anim.SetFloat("speed", 0f);
+        }
     }
 
     void Seek(Vector3 location)
     {
         agent.SetDestination(location);
+        anim.SetFloat("speed", 1f);
     }
 
     Vector3 wanderTarget = Vector3.zero;
     void Wander()
     {
-        float wanderRad = 10;
-        float wanderDis = 10;
+        float wanderRad = 0.5f;
+        float wanderDis = 0.5f;
         float wanderJit = 1;
 
         wanderTarget += new Vector3(Random.Range(-1.0f, 1.0f) * wanderJit, 0, Random.Range(-1.0f, 1.0f) * wanderJit);
@@ -64,5 +79,18 @@ public class EnemyController : MonoBehaviour
 
         float lookAhead = targetDir.magnitude / (agent.speed + target.GetComponent<PlayerController>().currentSpeed);
         Seek(target.transform.position + target.transform.forward * lookAhead);
+    }
+
+    bool CanSeeTarget()
+    {
+        RaycastHit raycastInfo;
+        Vector3 rayToTarget = target.transform.position - this.transform.position;
+        float lookAngle = Vector3.Angle(this.transform.forward, rayToTarget);
+        if (Physics.Raycast(this.transform.position, rayToTarget, out raycastInfo) && lookAngle < 85)
+        {
+            if (raycastInfo.transform.gameObject.tag == "Player") { return true; }
+        }
+
+        return false;
     }
 }

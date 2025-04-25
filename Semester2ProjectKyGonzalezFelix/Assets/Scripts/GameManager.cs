@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] enemySpawners;
     public GameObject[] enemyTypes;
 
+    public int maxEnemies = 5;
+
     private PlayerDataStorage data;
 
     private void Awake()
@@ -22,9 +24,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (GameObject enemySpawner in enemySpawners)
+        for (int i = 0; i <= maxEnemies + 1; i++)
         {
-            Instantiate(enemyTypes[0], enemySpawner.transform);
+            int randomEnemy = Random.Range(0, enemyTypes.Length);
+            int randomSpawn = Random.Range(0, enemySpawners.Length);
+            Instantiate(enemyTypes[randomEnemy], enemySpawners[randomSpawn].transform.position, Quaternion.identity);
         }
     }
 }

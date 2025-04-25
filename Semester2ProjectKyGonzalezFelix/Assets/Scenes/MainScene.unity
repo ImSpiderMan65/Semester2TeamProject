@@ -121,7 +121,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 31f08a30bb0532745bc2a13a3d67d310, type: 2}
 --- !u!1 &7078104 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 320856043367317819, guid: 5f6c48cbc99d4684ebe1150ceed84072, type: 3}
@@ -1649,7 +1649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1909368815414108787, guid: d9914528f824bd74396b5abcfc2ce3b6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 2.66
       objectReference: {fileID: 0}
     - target: {fileID: 1909368815414108787, guid: d9914528f824bd74396b5abcfc2ce3b6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3455,6 +3455,7 @@ MonoBehaviour:
   enemySpawners: []
   enemyTypes:
   - {fileID: 8803676475675787511, guid: a51462c5d66212147b75c280b80fc9fb, type: 3}
+  maxEnemies: 5
 --- !u!4 &1969988798
 Transform:
   m_ObjectHideFlags: 0
@@ -4184,6 +4185,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6138535245327024616, guid: c178ea2665e704f449e8fcd9dbb5780c, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138535245327024616, guid: c178ea2665e704f449e8fcd9dbb5780c, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents:
