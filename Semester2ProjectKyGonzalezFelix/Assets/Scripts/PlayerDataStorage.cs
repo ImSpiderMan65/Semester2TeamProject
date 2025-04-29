@@ -31,7 +31,6 @@ public class PlayerDataStorage : MonoBehaviour
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        dungeonCam = GameObject.Find("DungeonCamera").GetComponent<Camera>();
     }
 
     public void UpdatePlayerHealth(float addedHealth) // Updates the health bar UI for the player.
@@ -40,10 +39,4 @@ public class PlayerDataStorage : MonoBehaviour
         gameManager.UpdatePlayerUI();
     }
 
-    public IEnumerator DungeonCutscene()
-    {
-        dungeonCam.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2);
-        
-    }
 }

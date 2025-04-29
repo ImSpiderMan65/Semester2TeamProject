@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -9,6 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject pauseScreen;
     public GameObject deathScreen;
     public GameObject winScreen;
+    public GameObject dungeonDoor;
+    public Image sceneTransitionObject;
+    public Image sceneTransitioner;
     public Image playerHealth;
 
     public GameObject player;
@@ -28,18 +32,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (sceneTransitioner == null)
+        {
+            sceneTransitioner = Instantiate(sceneTransitionObject);
+        }
+
         SpawnEnemies();
     }
 
     private void Update()
     {
         currentEnemies = GameObject.FindObjectsOfType<EnemyController>().Length;
-        if (currentEnemies <= 0)
+        if (currentEnemies <= 0 && data.gameWave <= 5)
         {
             NextWave();
         }
 
-        if (data.gameWave == 5)
+        if (data.gameWave == 6)
         {
             DungeonCompleted();
         }
@@ -70,6 +79,29 @@ public class GameManager : MonoBehaviour
     public void DungeonCompleted()
     {
         winScreen.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void InitiateDungeonOpen()
+    {
+        StartCoroutine(DungeonOpen());
+
+        
+    }
+
+    IEnumerator DungeonOpen()
+    {
+        data.dungeonCam.gameObject.SetActive(true);
+        dungeonDoor.GetComponent<Animator>().SetTrigger("Open");
+
+        yield return new WaitForSeconds(6);
+
+        data.dungeonCam.gameObject.SetActive(false);
+    }
+
+    public IEnumerator TransitionToScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
 }
