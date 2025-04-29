@@ -8,7 +8,10 @@ public class PlayerDataStorage : MonoBehaviour
     private GameManager gameManager;
 
     public static int playerLevel;
+    public int gameLevel = 1;
+    public int dungeonLevel = 1;
     public float health = 100f;
+    public float damage = 5f;
 
     private void Awake() // Makes sure that player data is saved in between scenes.
     {

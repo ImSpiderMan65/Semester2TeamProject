@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] enemySpawners;
     public GameObject[] enemyTypes;
 
-    public int maxEnemies = 5;
+    public int maxEnemies = 1;
+    public int currentEnemies;
 
     private PlayerDataStorage data;
 
@@ -26,11 +27,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i <= maxEnemies + 1; i++)
+        SpawnEnemies();
+    }
+
+    private void Update()
+    {
+        currentEnemies = GameObject.FindObjectsOfType<EnemyController>().Length;
+        if (currentEnemies <= 0)
         {
-            int randomEnemy = Random.Range(0, enemyTypes.Length);
-            int randomSpawn = Random.Range(0, enemySpawners.Length);
-            Instantiate(enemyTypes[randomEnemy], enemySpawners[randomSpawn].transform.position, Quaternion.identity);
+            NextLevel();
         }
     }
 
@@ -38,4 +43,22 @@ public class GameManager : MonoBehaviour
     {
         playerHealth.fillAmount = data.health / 100;
     }
+
+    public void NextLevel()
+    {
+        data.gameLevel += 1;
+        maxEnemies = data.gameLevel;
+        SpawnEnemies();
+    }
+
+    public void SpawnEnemies()
+    {
+        for (int i = 0; i <= maxEnemies - 1; i++)
+        {
+            int randomEnemy = Random.Range(0, enemyTypes.Length);
+            int randomSpawn = Random.Range(0, enemySpawners.Length);
+            Instantiate(enemyTypes[randomEnemy], enemySpawners[randomSpawn].transform.position, Quaternion.identity);
+        }
+    }
+
 }

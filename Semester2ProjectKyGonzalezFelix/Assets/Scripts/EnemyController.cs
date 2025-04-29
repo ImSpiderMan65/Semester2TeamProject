@@ -9,6 +9,11 @@ public class EnemyController : MonoBehaviour
     public float speed;
     public float damage = 1f;
     public float health;
+    private float initialHealth;
+
+    public bool attackCooldown;
+    public bool deathCutscene;
+    public bool immunityCooldown;
 
     private Rigidbody rb;
     private Animator anim;
@@ -26,25 +31,30 @@ public class EnemyController : MonoBehaviour
         target = GameObject.Find("Player");
         player = target.GetComponent<PlayerController>();
 
+        initialHealth = health;
+        UpdateHealth(0f);
     }
 
     void Update()
     {
-        Pursue();
+        if (deathCutscene == false)
+        {
+            Pursue();
+        }
 
         if (agent.velocity.magnitude < 0.5f)
         {
             anim.SetFloat("speed", 0f);
         }
 
-        if (IsInRange() )
+        if (IsInRange() && attackCooldown == false && deathCutscene == false)
         {
-            Invoke("Attack", 1.1f);
+            StartCoroutine(Attack());
         }
 
-        if (health <= 0f)
+        if (health <= 0f && deathCutscene == false)
         {
-
+            StartCoroutine(Die());
         }
     }
 
@@ -112,27 +122,45 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-    void Attack()
+    IEnumerator Attack()
     {
         anim.SetTrigger("isAttacking");
         player.playerDataStorage.UpdatePlayerHealth(-damage);
+        attackCooldown = true;
+        yield return new WaitForSeconds(1);
+
+        attackCooldown = false;
     }
 
     public void UpdateHealth(float addedHealth)
     {
         health += addedHealth;
+        healthBar.fillAmount = health / initialHealth;
     }
 
     IEnumerator Hit()
     {
+
         yield return new WaitForSeconds(0.3f);
 
     }
 
     IEnumerator Die()
     {
+        print("Die");
+        anim.SetTrigger("isFall");
+        deathCutscene = true;
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
+    }
 
-        yield return new WaitForSeconds(1f);
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<Weapon>(out Weapon component))
+        {
+            UpdateHealth(-player.playerDataStorage.damage);
+            
+        }
     }
 
 
