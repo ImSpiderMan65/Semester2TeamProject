@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,7 +36,12 @@ public class GameManager : MonoBehaviour
         currentEnemies = GameObject.FindObjectsOfType<EnemyController>().Length;
         if (currentEnemies <= 0)
         {
-            NextLevel();
+            NextWave();
+        }
+
+        if (data.gameWave == 5)
+        {
+            DungeonCompleted();
         }
     }
 
@@ -44,10 +50,10 @@ public class GameManager : MonoBehaviour
         playerHealth.fillAmount = data.health / 100;
     }
 
-    public void NextLevel()
+    public void NextWave()
     {
-        data.gameLevel += 1;
-        maxEnemies = data.gameLevel;
+        data.gameWave += 1;
+        maxEnemies = data.gameWave;
         SpawnEnemies();
     }
 
@@ -59,6 +65,11 @@ public class GameManager : MonoBehaviour
             int randomSpawn = Random.Range(0, enemySpawners.Length);
             Instantiate(enemyTypes[randomEnemy], enemySpawners[randomSpawn].transform.position, Quaternion.identity);
         }
+    }
+
+    public void DungeonCompleted()
+    {
+        winScreen.gameObject.SetActive(true);
     }
 
 }

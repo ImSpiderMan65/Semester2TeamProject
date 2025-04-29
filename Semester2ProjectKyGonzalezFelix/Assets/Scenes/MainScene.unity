@@ -635,6 +635,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8aee444a73cd4240bdc16de5be61973, type: 3}
+--- !u!1 &113812274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1611889453256503268, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
+  m_PrefabInstance: {fileID: 1581365706}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &126859505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1977,7 +1982,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24077628449590d49bcfde5a0750809e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLevel: 1
+  dungeonCam: {fileID: 0}
+  gameWave: 1
   dungeonLevel: 1
   health: 100
   damage: 5
@@ -3069,6 +3075,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
   m_PrefabInstance: {fileID: 1581365706}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1152521463
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113812274}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 374532564c7efd74688896cf2e74673f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1194179562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 405583439056312486, guid: e8aee444a73cd4240bdc16de5be61973, type: 3}
@@ -4168,7 +4195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.82
+      value: -16.643
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4184,7 +4211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalRotation.y
@@ -4192,7 +4219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4200,7 +4227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2095656271133619550, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -4209,7 +4236,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1611889453256503268, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1152521463}
   m_SourcePrefab: {fileID: 100100000, guid: b54f3ba3e9e93b74ba9a8c9b49f789f5, type: 3}
 --- !u!1001 &1614858682
 PrefabInstance:
@@ -5381,10 +5411,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2144614482}
   - component: {fileID: 2144614481}
-  - component: {fileID: 2144614480}
   - component: {fileID: 2144614479}
   m_Layer: 0
-  m_Name: Camera 2
+  m_Name: DungeonCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5434,14 +5463,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &2144614480
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144614478}
-  m_Enabled: 1
 --- !u!20 &2144614481
 Camera:
   m_ObjectHideFlags: 0
@@ -5501,8 +5522,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144614478}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 17.134, y: 1.3201525, z: 8.214}
+  m_LocalRotation: {x: 0.00400801, y: 0.70710355, z: 0.004039049, w: -0.7070871}
+  m_LocalPosition: {x: 0.5, y: 2.97, z: 9.552}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
