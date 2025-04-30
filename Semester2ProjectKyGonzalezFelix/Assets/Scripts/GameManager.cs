@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,7 +13,11 @@ public class GameManager : MonoBehaviour
     public GameObject winScreen;
     public GameObject dungeonDoor;
     public Image playerHealth;
-    
+    public Image sceneTransitionObject;
+    public Image sceneTransitioner;
+    public Canvas canvas;
+
+
 
     public GameObject player;
     public GameObject[] enemySpawners;
@@ -31,6 +36,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        canvas = FindFirstObjectByType<Canvas>();
+        if (sceneTransitioner == null)
+        {
+            sceneTransitioner = Instantiate(sceneTransitionObject, canvas.transform);
+        }
+
+        StartCoroutine(SceneTranstionerOut());
+
         SpawnEnemies();
     }
 
@@ -45,6 +58,11 @@ public class GameManager : MonoBehaviour
         if (data.gameWave == 5 && currentEnemies <= 0)
         {
             DungeonCompleted();
+        }
+
+        if (data.health <= 0)
+        {
+            Died();
         }
     }
 
@@ -74,6 +92,7 @@ public class GameManager : MonoBehaviour
     {
         winScreen.gameObject.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     public void InitiateDungeonOpen()
@@ -91,6 +110,36 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(6);
 
         data.dungeonCam.gameObject.SetActive(false);
+    }
+
+    public void Died()
+    {
+        deathScreen.gameObject.SetActive(true);
+    }
+
+    public void TransitionToScene(string sceneName)
+    {
+        StartCoroutine(SceneTransitionerIn(sceneName));
+    }
+
+    public IEnumerator SceneTransitionerIn(string sceneName)
+    {
+        sceneTransitioner.GetComponent<Animator>().Play("FadeIn");
+        yield return new WaitForSeconds(3);
+
+        SceneManager.LoadScene(sceneName);
+
+    }
+
+    public IEnumerator SceneTranstionerOut()
+    {
+        sceneTransitioner.GetComponent<Animator>().Play("FadeOut");
+        yield return new WaitForSeconds(3);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
 }
