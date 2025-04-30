@@ -28,6 +28,10 @@ public class PlayerController : MonoBehaviour
     public GameObject charRig;
     private Animator anim;
 
+    public AudioSource audioSource;
+    public AudioClip attackSound;
+    public AudioClip hitSound;
+
     public PlayerDataStorage playerDataStorage;
 
 
@@ -127,6 +131,7 @@ public class PlayerController : MonoBehaviour
     private void Attack()
     {
         anim.SetTrigger("isAttacking");
+        audioSource.PlayOneShot(attackSound);
         charRig.transform.localPosition = Vector3.zero;
     }
 }

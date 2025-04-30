@@ -21,6 +21,9 @@ public class EnemyController : MonoBehaviour
     public GameObject target;
     private PlayerController player;
 
+    public AudioSource audioSource;
+    public AudioClip attackSound;
+
     public Image healthBar;
 
     void Start()
@@ -125,6 +128,7 @@ public class EnemyController : MonoBehaviour
     IEnumerator Attack()
     {
         anim.SetTrigger("isAttacking");
+        audioSource.PlayOneShot(attackSound);
         player.playerDataStorage.UpdatePlayerHealth(-damage);
         attackCooldown = true;
         yield return new WaitForSeconds(1);
