@@ -11,9 +11,8 @@ public class GameManager : MonoBehaviour
     public GameObject deathScreen;
     public GameObject winScreen;
     public GameObject dungeonDoor;
-    public Image sceneTransitionObject;
-    public Image sceneTransitioner;
     public Image playerHealth;
+    
 
     public GameObject player;
     public GameObject[] enemySpawners;
@@ -32,23 +31,18 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (sceneTransitioner == null)
-        {
-            sceneTransitioner = Instantiate(sceneTransitionObject);
-        }
-
         SpawnEnemies();
     }
 
     private void Update()
     {
         currentEnemies = GameObject.FindObjectsOfType<EnemyController>().Length;
-        if (currentEnemies <= 0 && data.gameWave <= 5)
+        if (currentEnemies <= 0 && data.gameWave < 5)
         {
             NextWave();
         }
 
-        if (data.gameWave == 6)
+        if (data.gameWave == 5 && currentEnemies <= 0)
         {
             DungeonCompleted();
         }
@@ -97,11 +91,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(6);
 
         data.dungeonCam.gameObject.SetActive(false);
-    }
-
-    public IEnumerator TransitionToScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
     }
 
 }
