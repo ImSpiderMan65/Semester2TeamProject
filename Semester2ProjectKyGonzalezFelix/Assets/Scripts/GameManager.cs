@@ -121,6 +121,8 @@ public class GameManager : MonoBehaviour
     public void Died()
     {
         deathScreen.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     public void TransitionToScene(string sceneName)
