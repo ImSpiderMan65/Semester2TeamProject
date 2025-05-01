@@ -8148,6 +8148,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6710450764371961132, guid: ba086b496ac478548ba8290f364e45f3, type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6710450764371961132, guid: ba086b496ac478548ba8290f364e45f3, type: 3}
       propertyPath: gameWave
       value: 1
       objectReference: {fileID: 0}

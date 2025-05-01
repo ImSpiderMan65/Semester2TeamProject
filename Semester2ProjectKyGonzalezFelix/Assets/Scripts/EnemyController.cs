@@ -11,9 +11,9 @@ public class EnemyController : MonoBehaviour
     public float health;
     private float initialHealth;
 
-    public bool attackCooldown;
-    public bool deathCutscene;
-    public bool immunityCooldown;
+    private bool attackCooldown;
+    private bool deathCutscene;
+    private bool immunityCooldown;
 
     private Rigidbody rb;
     private Animator anim;
@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour
 
         initialHealth = health;
         UpdateHealth(0f);
+
+        attackCooldown = false;
     }
 
     void Update()
@@ -133,11 +135,9 @@ public class EnemyController : MonoBehaviour
         audioSource.PlayOneShot(attackSound);
         gameManager.UpdatePlayerHealth(-damage);
         attackCooldown = true;
-        print("done");
         yield return new WaitForSeconds(1);
 
         attackCooldown = false;
-        print("wait");
     }
 
     public void UpdateHealth(float addedHealth)
