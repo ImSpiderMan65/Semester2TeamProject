@@ -755,7 +755,7 @@ MonoBehaviour:
   dungeonCam: {fileID: 0}
   sceneTransitionObject: {fileID: 0}
   sceneTransitioner: {fileID: 0}
-  gameWave: 4
+  gameWave: 1
   dungeonLevel: 1
   health: 100
   damage: 5

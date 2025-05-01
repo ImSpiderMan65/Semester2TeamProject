@@ -15,8 +15,8 @@ public class PlayerCamera : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true ;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false ;
     }
 
     void Update()

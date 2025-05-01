@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip attackSound;
     public AudioClip hitSound;
 
+    public bool attackCooldown = false;
+
     public PlayerDataStorage playerDataStorage;
 
 
@@ -58,9 +60,9 @@ public class PlayerController : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && attackCooldown == false)
         {
-            Attack(); 
+            StartCoroutine(Attack()); 
         }
     }
 
@@ -128,10 +130,14 @@ public class PlayerController : MonoBehaviour
         readyToJump = true;
     }
 
-    private void Attack()
+    private IEnumerator Attack()
     {
         anim.SetTrigger("isAttacking");
         audioSource.PlayOneShot(attackSound);
         charRig.transform.localPosition = Vector3.zero;
+        attackCooldown = true;
+        yield return new WaitForSeconds(1);
+        attackCooldown = false;
+
     }
 }

@@ -10,14 +10,12 @@ public class PlayerDataStorage : MonoBehaviour
 {
     private static PlayerDataStorage Instance;
     private GameManager gameManager;
-    public Camera dungeonCam;
     public Image sceneTransitionObject;
     public Image sceneTransitioner;
 
     public static int playerLevel;
-    public int gameWave = 1;
     public int dungeonLevel = 1;
-    public float health = 100f;
+    public float maxHealth;
     public float damage = 5f;
 
     private void Awake() // Makes sure that player data is saved in between scenes.
@@ -34,16 +32,11 @@ public class PlayerDataStorage : MonoBehaviour
 
     private void Start()
     {
-        dungeonCam = GameObject.Find("DungeonCam").GetComponent<Camera>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        UpdatePlayerHealth(0);
+
     }
 
-    public void UpdatePlayerHealth(float addedHealth) // Updates the health bar UI for the player.
-    {
-        health += addedHealth;
-        gameManager.UpdatePlayerUI();
-    }
+    
 
     
 

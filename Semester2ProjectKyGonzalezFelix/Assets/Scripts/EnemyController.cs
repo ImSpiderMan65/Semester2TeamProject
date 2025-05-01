@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent agent;
     public GameObject target;
     private PlayerController player;
+    GameManager gameManager;
 
     public AudioSource audioSource;
     public AudioClip attackSound;
@@ -33,6 +34,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.Find("Player");
         player = target.GetComponent<PlayerController>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         initialHealth = health;
         UpdateHealth(0f);
@@ -45,7 +47,7 @@ public class EnemyController : MonoBehaviour
             Pursue();
         }
 
-        if (agent.velocity.magnitude < 0.5f)
+        if (agent.velocity.magnitude < 0.1f)
         {
             anim.SetFloat("speed", 0f);
         }
@@ -129,11 +131,13 @@ public class EnemyController : MonoBehaviour
     {
         anim.SetTrigger("isAttacking");
         audioSource.PlayOneShot(attackSound);
-        player.playerDataStorage.UpdatePlayerHealth(-damage);
+        gameManager.UpdatePlayerHealth(-damage);
         attackCooldown = true;
+        print("done");
         yield return new WaitForSeconds(1);
 
         attackCooldown = false;
+        print("wait");
     }
 
     public void UpdateHealth(float addedHealth)
@@ -144,9 +148,9 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator Hit()
     {
-
-        yield return new WaitForSeconds(0.3f);
-
+        immunityCooldown = true;
+        yield return new WaitForSeconds(0.75f);
+        immunityCooldown = false;
     }
 
     IEnumerator Die()
@@ -160,10 +164,10 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<Weapon>(out Weapon component))
+        if (other.gameObject.TryGetComponent<Weapon>(out Weapon component) && immunityCooldown == false)
         {
             UpdateHealth(-player.playerDataStorage.damage);
-            
+            StartCoroutine(Hit());
         }
     }
 

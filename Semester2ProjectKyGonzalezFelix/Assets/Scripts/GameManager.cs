@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public Image sceneTransitioner;
     public Canvas canvas;
 
+    public Camera dungeonCam;
+
 
 
     public GameObject player;
@@ -25,6 +27,9 @@ public class GameManager : MonoBehaviour
 
     public int maxEnemies = 1;
     public int currentEnemies;
+    public int gameWave;
+
+    public float health = 100f;
 
     private PlayerDataStorage data;
 
@@ -42,6 +47,8 @@ public class GameManager : MonoBehaviour
             sceneTransitioner = Instantiate(sceneTransitionObject, canvas.transform);
         }
 
+        
+
         StartCoroutine(SceneTranstionerOut());
 
         SpawnEnemies();
@@ -50,17 +57,17 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         currentEnemies = GameObject.FindObjectsOfType<EnemyController>().Length;
-        if (currentEnemies <= 0 && data.gameWave < 5)
+        if (currentEnemies <= 0 && gameWave <= 4)
         {
             NextWave();
         }
 
-        if (data.gameWave == 5 && currentEnemies <= 0)
+        if (gameWave == 5 && currentEnemies <= 0 && winScreen != null)
         {
             DungeonCompleted();
         }
 
-        if (data.health <= 0)
+        if (health <= 0 && deathScreen != null)
         {
             Died();
         }
@@ -68,13 +75,13 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayerUI()
     {
-        playerHealth.fillAmount = data.health / 100;
+        playerHealth.fillAmount = health / 100;
     }
 
     public void NextWave()
     {
-        data.gameWave += 1;
-        maxEnemies = data.gameWave;
+        gameWave += 1;
+        maxEnemies = gameWave;
         SpawnEnemies();
     }
 
@@ -98,18 +105,17 @@ public class GameManager : MonoBehaviour
     public void InitiateDungeonOpen()
     {
         StartCoroutine(DungeonOpen());
-
-        
     }
 
-    IEnumerator DungeonOpen()
+    public IEnumerator DungeonOpen()
     {
-        data.dungeonCam.gameObject.SetActive(true);
-        dungeonDoor.GetComponent<Animator>().SetTrigger("Open");
+        dungeonCam.gameObject.SetActive(true);
+        dungeonDoor.GetComponent<Animator>().Play("DoorOpen");
 
         yield return new WaitForSeconds(6);
 
-        data.dungeonCam.gameObject.SetActive(false);
+        dungeonCam.gameObject.SetActive(false);
+        dungeonDoor.gameObject.SetActive(false);
     }
 
     public void Died()
@@ -140,6 +146,12 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void UpdatePlayerHealth(float addedHealth) // Updates the health bar UI for the player.
+    {
+        health += addedHealth;
+        UpdatePlayerUI();
     }
 
 }
